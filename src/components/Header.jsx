@@ -3,10 +3,11 @@ import icon_hamberger from "./../assets/icon-hamburger.svg";
 import icon_close from "./../assets/icon-close.svg";
 import SearchBar from "./ui/SearchBar";
 
-const Header = () => {
+const Header = ({setStatusSearch}) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="my-container relative flex items-center justify-between bg-black py-4">
+    <div className="my-container relative flex items-center justify-between bg-black py-4 border-b border-amber-50">
       <div className="flex space-x-5">
         <h1 className="text-4xl font-bold text-red-600 uppercase">movie</h1>
         <nav className="hidden items-center space-x-4 font-medium capitalize sm:flex">
@@ -16,7 +17,7 @@ const Header = () => {
         </nav>
       </div>
 
-      <SearchBar className={"hidden sm:block"} />
+      <SearchBar className={"hidden sm:block"} onStatusSearch={setStatusSearch} />
       <div className="sm:hidden">
         {isOpen ? (
           <img
@@ -44,7 +45,7 @@ const Header = () => {
           <a href="#">about</a>
           <a href="#">contact</a>
         </nav>
-        <SearchBar className={"block"} />
+        <SearchBar className={"block"} onStatusSearch={setStatusSearch}/>
       </div>
     </div>
   );

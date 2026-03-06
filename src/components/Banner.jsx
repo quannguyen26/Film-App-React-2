@@ -31,8 +31,9 @@ const Banner = ({ upcomingFilm }) => {
         responsive={responsive}
         showDots={true}
         infinite={true}
-        autoPlay={false}
+        autoPlay={true}
         autoPlaySpeed={1600}
+        arrows={false}
       >
         {upcomingFilm.length > 0 &&
           upcomingFilm.slice(0, 5).map((data) => {
