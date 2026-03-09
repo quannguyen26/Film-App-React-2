@@ -7,6 +7,28 @@ import Modal from "react-modal";
 import YouTube from "react-youtube";
 import SearchFilm from "./components/SearchFilm";
 
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+const opts = {
+  height: "390",
+  width: "640",
+  playerVars: {
+    origin: window.location.origin, // Tự động lấy http://localhost:5173
+    enablejsapi: 1,
+    // https://developers.google.com/youtube/player_parameters
+    autoplay: 1,
+  },
+};
+
 function App() {
   const [upcoming, setUpcoming] = useState([]);
   const [popular, setPopular] = useState([]);
@@ -14,28 +36,7 @@ function App() {
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [keyVideo, setKeyVideo] = useState("");
   const [statusSearch, setStatusSearch] = useState(false);
-
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-
-  const opts = {
-    height: "390",
-    width: "640",
-    playerVars: {
-      origin: window.location.origin, // Tự động lấy http://localhost:5173
-      enablejsapi: 1,
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-    },
-  };
+  const [searchResults, setSearchResults] = useState([]);
 
   const fetchApiData = async () => {
     try {
@@ -69,8 +70,27 @@ function App() {
       setUpcoming(data1.results);
       setPopular(data2.results);
       setTopRate(data3.results);
-      // console.log(data2.results)
-      console.log(data3.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSearch = async (text) => {
+    try {
+      const url = `https://api.themoviedb.org/3/search/movie?query=${text}&include_adult=false&language=en-US&page=1`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+        },
+      };
+
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data.results);
+      setSearchResults(data.results);
     } catch (error) {
       console.log(error);
     }
@@ -81,10 +101,10 @@ function App() {
   }, []);
   return (
     <div className="text-white">
-      <Header setStatusSearch={setStatusSearch}></Header>
+      <Header setStatusSearch={setStatusSearch} fetchSearch={fetchSearch}></Header>
       <Banner upcomingFilm={upcoming}></Banner>
       {statusSearch ? (
-        <SearchFilm></SearchFilm>
+        <SearchFilm dataSearch={searchResults}></SearchFilm>
       ) : (
         <>
           <ListFilm
