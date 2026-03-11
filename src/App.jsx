@@ -35,7 +35,6 @@ function App() {
   const [topRate, setTopRate] = useState([]);
   const [modalIsOpen, setIsModalOpen] = useState(false);
   const [keyVideo, setKeyVideo] = useState("");
-  const [statusSearch, setStatusSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
 
   const fetchApiData = async () => {
@@ -75,7 +74,7 @@ function App() {
     }
   };
 
-  const fetchSearch = async (text) => {
+  const handleClickSearch = async (text) => {
     try {
       const url = `https://api.themoviedb.org/3/search/movie?query=${text}&include_adult=false&language=en-US&page=1`;
 
@@ -89,8 +88,30 @@ function App() {
 
       const response = await fetch(url, options);
       const data = await response.json();
-      console.log(data.results);
       setSearchResults(data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePosterClick = async (movie_id) => {
+    try {
+      const url = `https://api.themoviedb.org/3/movie/${movie_id}/videos`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+        },
+      };
+
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(movie_id);
+      console.log(data);
+      setKeyVideo(data.results[0].key);
+      setIsModalOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -101,25 +122,26 @@ function App() {
   }, []);
   return (
     <div className="text-white">
-      <Header setStatusSearch={setStatusSearch} fetchSearch={fetchSearch}></Header>
+      <Header onClickSearch={handleClickSearch}></Header>
       <Banner upcomingFilm={upcoming}></Banner>
-      {statusSearch ? (
-        <SearchFilm dataSearch={searchResults}></SearchFilm>
+      {searchResults.length > 0 ? (
+        <SearchFilm
+          dataSearch={searchResults}
+          onPosterClick={handlePosterClick}
+        ></SearchFilm>
       ) : (
         <>
           <ListFilm
             title="Popular"
             dataFilm={popular}
             modalStatus={modalIsOpen}
-            setModalStatus={setIsModalOpen}
-            onClickKeyVideo={setKeyVideo}
+            onPosterClick={handlePosterClick}
           ></ListFilm>
           <ListFilm
             title="Top Rate"
             dataFilm={topRate}
             modalStatus={modalIsOpen}
-            setModalStatus={setIsModalOpen}
-            onClickKeyVideo={setKeyVideo}
+            onPosterClick={handlePosterClick}
           ></ListFilm>
         </>
       )}

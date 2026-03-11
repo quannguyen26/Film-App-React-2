@@ -1,6 +1,6 @@
 import rating from "./../assets/rating.png";
 import rating_half from "./../assets/rating-half.png";
-import play_button from "./../assets/play.png";
+import play_button from "./../assets/play-button.png";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -32,7 +32,7 @@ const Banner = ({ upcomingFilm }) => {
         showDots={true}
         infinite={true}
         autoPlay={true}
-        autoPlaySpeed={1600}
+        autoPlaySpeed={2000}
         arrows={false}
       >
         {upcomingFilm.length > 0 &&
@@ -45,7 +45,7 @@ const Banner = ({ upcomingFilm }) => {
                 }}
               >
                 <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/60 to-transparent"></div>
-                <div className="absolute top-0 left-0 flex h-full w-full flex-col-reverse justify-start sm:flex-row sm:items-center">
+                <div className="absolute inset-0 flex flex-col-reverse justify-start sm:flex-row sm:items-center">
                   <div className="flex h-full w-full flex-col items-center justify-start gap-y-4 px-8 py-2 sm:w-1/2 sm:items-start sm:justify-center">
                     <p className="hidden bg-linear-to-r from-red-600 to-white px-5 py-2 sm:block">
                       Film Upcoming
@@ -64,35 +64,35 @@ const Banner = ({ upcomingFilm }) => {
                         className="size-6"
                       />
                     </div>
-                    <p className="line-clamp-4 hidden  sm:block">
+                    <p className="line-clamp-4 hidden sm:block">
                       {data.overview}
                     </p>
                     <div className="flex gap-4">
-                      <button className="min-w-25 cursor-pointer bg-white/20 px-6 py-2 font-medium backdrop-blur-md 
-                      transition-all hover:bg-white hover:text-black">
+                      <button className="min-w-25 cursor-pointer bg-white/20 px-6 py-2 font-medium backdrop-blur-md transition-all hover:bg-white hover:text-black">
                         Chi tiết
                       </button>
-                      <button className="min-w-25 cursor-pointer bg-red-500 px-6 py-2 font-medium transition-opacity 
-                      delay-50 duration-300 ease-in hover:opacity-50">
+                      <button className="min-w-25 cursor-pointer bg-red-500 px-6 py-2 font-medium transition-opacity delay-50 duration-300 ease-in hover:opacity-50">
                         Xem phim
                       </button>
                     </div>
                   </div>
 
                   <div className="flex h-full w-full items-center justify-center px-8 py-5 sm:w-1/2">
-                    <div className="group relative h-90 w-62.5 sm:h-100">
+                    <div className="group relative aspect-2/3 w-62.5 cursor-pointer">
                       <img
                         src={`${import.meta.env.VITE_IMG_URL}${data.poster_path}`}
                         alt="poster-film"
-                        className="h-full w-full"
+                        className="h-full w-full object-cover"
                       />
-                      <div className="absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center 
-                      opacity-0 backdrop-blur-sm transition-opacity delay-100 duration-1000 ease-in-out group-hover:opacity-100">
-                        <img
-                          src={play_button}
-                          alt="play_button"
-                          className="size-45"
-                        />
+                      <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                      <div class="absolute inset-0 flex translate-y-4 items-center justify-center opacity-0 transition-opacity duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <div class="rounded-full border border-white/30 bg-white/20 p-3 shadow-2xl backdrop-blur-sm">
+                          <img
+                            src={play_button}
+                            alt="play_button"
+                            className="size-10"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

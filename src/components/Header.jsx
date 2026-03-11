@@ -3,7 +3,7 @@ import icon_hamberger from "./../assets/icon-hamburger.svg";
 import icon_close from "./../assets/icon-close.svg";
 import SearchBar from "./ui/SearchBar";
 
-const Header = ({ setStatusSearch, fetchSearch }) => {
+const Header = ({ onClickSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,11 +23,7 @@ const Header = ({ setStatusSearch, fetchSearch }) => {
         </nav>
       </div>
 
-      <SearchBar
-        className={"hidden sm:block"}
-        onStatusSearch={setStatusSearch}
-        onClickSearch={fetchSearch}
-      />
+      <SearchBar className={"hidden sm:block"} onClickSearch={onClickSearch} />
       <div className="sm:hidden">
         {isOpen ? (
           <img
@@ -53,7 +49,7 @@ const Header = ({ setStatusSearch, fetchSearch }) => {
           <a href="#">about</a>
           <a href="#">contact</a>
         </nav>
-        <SearchBar className={"block"} onStatusSearch={setStatusSearch} />
+        <SearchBar className={"block"} onClickSearch={onClickSearch} />
       </div>
     </div>
   );
